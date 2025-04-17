@@ -1,0 +1,8 @@
+/* Navbar overrides */
+.bg-primary-blue {
+  background-color: var(--primary-blue) !important;
+}
+
+.navbar-logo {
+  height: 40px;
+}

@@ -1,0 +1,76 @@
+/* Fondo con un gradiente dinámico y algo de textura sutil */
+.login-bg {
+  min-height: calc(100vh - 56px);
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
+  padding: 2rem;
+  font-family: "Roboto", sans-serif; /* Fuente moderna */
+}
+
+/* Animación para el gradiente */
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Tarjeta de login con sombras y bordes redondeados */
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+}
+
+/* Imagen del logo centrada */
+.logo-img {
+  width: 300px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Ajustes para el título */
+.card-title {
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: #f1f1f1;
+}
+
+/* Botones a ancho completo */
+.btn {
+  font-weight: 600;
+}
+
+/* Personalización para los botones info */
+.btn-info {
+  background-color: #3a7bd5;
+  border-color: #3a7bd5;
+}
+
+.btn-info:hover:not(:disabled) {
+  background-color: #00d2ff;
+  border-color: #00d2ff;
+}
+
+/* Personalización para el botón primario */
+.btn-primary {
+  background-color: #1e90ff;
+  border-color: #1e90ff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #1c86ee;
+  border-color: #1c86ee;
+}
+
+/* Enlaces */
+.link-primary {
+  color: #f1f1f1;
+  text-decoration: underline;
+}
