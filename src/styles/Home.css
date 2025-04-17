@@ -1,0 +1,46 @@
+.home-tab {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  background-color: var(--primary-blue); /* your defined primary blue */
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.home-tab .time {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.home-tab .date {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.home-tab .prompt {
+  margin-bottom: 1.5rem;
+}
+
+.home-tab .btn {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Retain your btn-info customizations */
+.btn-info {
+  background-color: var(--accent-blue-dark);
+  border-color: var(--accent-blue-dark);
+}
+
+.btn-info:hover:not(:disabled) {
+  background-color: var(--accent-blue-light);
+  border-color: var(--accent-blue-light);
+}

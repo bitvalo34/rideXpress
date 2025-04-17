@@ -1,0 +1,24 @@
+.triplist-container {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+  
+  .trip-heading {
+    color: var(--secondary-blue);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  .trip-card {
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+  }
+  
+  .trip-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
+  

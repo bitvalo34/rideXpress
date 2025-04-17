@@ -1,0 +1,74 @@
+.payment-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.payment-card {
+  border-radius: 12px;
+}
+
+/* Payment Methods Section */
+.payment-methods .payment-btn {
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1rem;
+}
+
+/* Promo Code Section */
+.promo-section {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.promo-input {
+  width: 200px;
+}
+
+.promo-btn {
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1rem;
+}
+
+/* Bid Section */
+.bid-section {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.bid-input {
+  width: 200px;
+}
+
+.bid-btn {
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1rem;
+}
+
+/* Button styling overrides */
+.btn-primary {
+  background-color: var(--primary-blue);
+  border-color: var(--primary-blue);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--secondary-blue);
+  border-color: var(--secondary-blue);
+}
+
+.btn-info {
+  background-color: var(--accent-blue-dark);
+  border-color: var(--accent-blue-dark);
+}
+
+.btn-info:hover:not(:disabled) {
+  background-color: var(--accent-blue-light);
+  border-color: var(--accent-blue-light);
+}
+
+.text-secondary-blue {
+  color: var(--secondary-blue);
+}

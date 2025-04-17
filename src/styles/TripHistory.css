@@ -1,0 +1,73 @@
+.trip-history-container {
+  background: #f9f9f9; /* subtle light background for contrast */
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.trip-heading {
+  color: var(--secondary-blue);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Trip card styling */
+.trip-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.trip-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Thumbnail image for trip */
+.trip-thumb {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Trip details text */
+.trip-details h5 {
+  color: var(--primary-blue);
+  font-weight: 700;
+}
+
+.trip-details p {
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Actions styling */
+.trip-actions .btn {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Primary button (download receipt) */
+.btn-primary {
+  background-color: var(--primary-blue);
+  border-color: var(--primary-blue);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--secondary-blue);
+  border-color: var(--secondary-blue);
+}
+
+/* Secondary button (repeat ride) */
+.btn-secondary {
+  background-color: var(--accent-blue-dark);
+  border-color: var(--accent-blue-dark);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--accent-blue-light);
+  border-color: var(--accent-blue-light);
+}

@@ -1,0 +1,73 @@
+.ride-details-container {
+  background-color: #f9f9f9; /* Subtle light background */
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.text-secondary-blue {
+  color: var(--secondary-blue);
+}
+
+.ride-card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.ride-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.driver-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.driver-info .card-title {
+  color: var(--primary-blue);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.driver-info p {
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.star-icon {
+  margin-right: 2px;
+  font-size: 1rem;
+}
+
+.star-icon.filled {
+  color: #fdd835;
+}
+
+.star-icon.empty {
+  color: #ccc;
+}
+
+.ride-extra {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.extra-item {
+  display: flex;
+  align-items: center;
+}
+
+.ride-actions .btn {
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.more-link {
+  color: var(--primary-blue);
+  font-weight: 600;
+  text-decoration: underline;
+}
