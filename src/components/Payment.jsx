@@ -5,11 +5,12 @@ import { db } from "../firebase";
 import { FaCreditCard, FaMoneyBillAlt, FaPaypal, FaTag } from "react-icons/fa";
 import "../styles/Payment.css";
 import { MapsContext } from "../context/MapsProvider";
+import { pushNotification }   from "../context/NotificationsContext"; 
 
 export default function Payment() {
   const { isLoaded }           = useContext(MapsContext);
   const [fare, setFare]        = useState(null);
-  const [tripStatus, setStat]  = useState(null);      // estado real
+  const [tripStatus, setStat]  = useState(null);      // estado real 
   const navigate               = useNavigate();
   const tripId                 = new URLSearchParams(useLocation().search).get("tripId");
 
@@ -58,6 +59,13 @@ export default function Payment() {
     });
 
     navigate(newStatus === "completed" ? "/history" : "/my-trips");
+
+    pushNotification(
+      snap.data().uid,
+      `Pago confirmado con ${m} • viaje ${
+      newStatus === "completed" ? "completado" : "programado"
+      }`
+    );
   };
 
   const disabled = !tripStatus;

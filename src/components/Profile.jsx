@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { pushNotification }   from "../context/NotificationsContext";
 import { FaCamera, FaSave, FaEdit } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db } from "../firebase";
 import "../styles/Profile.css";
 
@@ -12,7 +14,15 @@ function Profile() {
     nombre: "",
     telefono: "",
     correo: "",
+    avatarUrl: "",  
+    coverUrl : "", 
   });
+
+  const [avatarFile, setAvatarFile] = useState(null);   // 🆕 temp files
+  const [coverFile , setCoverFile ] = useState(null);
+  
+  const avatarInput = useRef(null);   // 🆕 hidden file inputs
+  const coverInput  = useRef(null);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -24,13 +34,37 @@ function Profile() {
           nombre: d.nombre,
           telefono: d.telefono,
           correo: d.correo,
+          avatarUrl: d.avatarUrl || "public/assets/driver-placeholder.png",
+          coverUrl : d.coverUrl  || "public/assets/cover-placeholder.png",
         });
       }
     });
   }, [currentUser]);
 
+  const uploadImage = async (file, path) => {
+    const storage   = getStorage();
+    const fileRef   = ref(storage, path);
+    await uploadBytes(fileRef, file);
+    return await getDownloadURL(fileRef);
+  };
+
   const save = async () => {
-    await updateDoc(doc(db, "usuarios", currentUser.uid), form);
+    const updates = { ...form };              
+
+    if (avatarFile) {
+     updates.avatarUrl = await uploadImage(
+      avatarFile,
+      `avatars/${currentUser.uid}`
+    );
+  }
+    if (coverFile) {
+     updates.coverUrl = await uploadImage(
+      coverFile,
+      `covers/${currentUser.uid}`
+    );
+  }
+    await updateDoc(doc(db, "usuarios", currentUser.uid), updates);
+    pushNotification(currentUser.uid, "Perfil actualizado");
     setEdit(false);
   };
 
@@ -38,24 +72,58 @@ function Profile() {
     <div className="container my-4 profile-container">
       <div className="card profile-card shadow-sm">
         {/* Cover */}
-        <div className="profile-cover">
+        <div className="profile-cover position-relative">
           <img
-            src="public/assets/cover-placeholder.jpg"
+            src={coverFile ? URL.createObjectURL(coverFile) : form.coverUrl}
             alt="cover"
             className="cover-img"
+            onClick={() => edit && coverInput.current.click()}
+            style={{ cursor: edit ? "pointer" : "default" }}
           />
-        </div>
-
-        {/* Core */}
-        <div className="profile-content">
-          <div className="avatar-container">
-            <img
-              src="public/assets/driver-placeholder.png"
-              className="profile-avatar"
-            />
-            <button className="btn-edit-photo" disabled>
+          {/* Botón cámara sobre la portada */}
+          {edit && (
+            <button
+              type="button"
+              className="btn-edit-photo cover-btn"
+              onClick={() => coverInput.current.click()}
+            >
               <FaCamera />
             </button>
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            hidden
+            ref={coverInput}
+            onChange={(e) => setCoverFile(e.target.files[0])}
+          />
+        </div>
+        {/* Core */}
+        <div className="profile-content">
+          <div className="avatar-container position-relative">
+            <img
+              src={avatarFile ? URL.createObjectURL(avatarFile) : form.avatarUrl}
+              alt="avatar"
+              className="profile-avatar"
+              onClick={() => edit && avatarInput.current.click()}
+              style={{ cursor: edit ? "pointer" : "default" }}
+            />
+            {edit && (
+              <button
+                type="button"
+                className="btn-edit-photo"
+                onClick={() => avatarInput.current.click()}
+              >
+                <FaCamera />
+              </button>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              hidden
+              ref={avatarInput}
+              onChange={(e) => setAvatarFile(e.target.files[0])}
+            />
           </div>
 
           {/* data */}

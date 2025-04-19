@@ -6,3 +6,10 @@
 .navbar-logo {
   height: 40px;
 }
+
+/* badge sobre campana */
+.navbar .badge {
+  font-size: 0.65rem;
+  padding: 0.35em 0.45em;
+}
+

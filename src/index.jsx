@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import App from "./App";
 import MapsProvider from "./context/MapsProvider";
+import NotificationsProvider from "./context/NotificationsContext";
 
 // Import Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,7 +16,9 @@ root.render(
   <BrowserRouter>
     <MapsProvider>
       <AuthProvider>
+        <NotificationsProvider>
         <App />
+        </NotificationsProvider>
       </AuthProvider>
     </MapsProvider>
   </BrowserRouter>

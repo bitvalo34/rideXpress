@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useCallback, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Timestamp } from 'firebase/firestore';
 import {
   doc, setDoc, addDoc, collection, getDoc, serverTimestamp,
 } from "firebase/firestore";
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker, DirectionsRenderer } from "@react-google-maps/api";
 import { format, addHours, isBefore, parseISO } from "date-fns";
 import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import MapAutocomplete from "./MapAutocomplete";
 import { MapsContext } from "../context/MapsProvider";
+import { pushNotification }   from "../context/NotificationsContext";
 
 /* ---------- util ---------- */
 const geocodeLatLng = (lat, lng) =>
@@ -41,7 +43,9 @@ export default function TripForm() {
   const editing                        = Boolean(id);
   const navigate                       = useNavigate();
   const { currentUser }                = useAuth();
-  const isLoaded                       = useContext(MapsContext);
+  const isLoaded                       = useContext(MapsContext); 
+
+  const [directions, setDirections] = useState(null);
 
   /* ---------- geo locate ---------- */
   useEffect(()=>{ navigator.geolocation.getCurrentPosition(
@@ -85,6 +89,23 @@ export default function TripForm() {
            : (setCoordsD({lat,lng}),setDestino(addr));
   };
 
+  useEffect(() => {
+    if (!isLoaded || !coordsO || !coordsD) return;
+  
+    const service = new window.google.maps.DirectionsService();
+    service.route(
+      {
+        origin: coordsO,
+        destination: coordsD,
+        travelMode: "DRIVING",
+      },
+      (result, status) => {
+        if (status === "OK") setDirections(result);
+      }
+    );
+  }, [isLoaded, coordsO, coordsD]);
+  
+
   /* ---------- submit ---------- */
   const handleSubmit = async(e)=>{
     e.preventDefault();
@@ -96,6 +117,8 @@ export default function TripForm() {
         return setError("El viaje programado debe ser al menos 1 hora en el futuro.");
     }
 
+    const fechaHoraJS = parseISO(`${fecha}T${hora}`);
+
     const data={
       uid           : currentUser.uid,
       origen,destino,
@@ -104,6 +127,7 @@ export default function TripForm() {
       tipoVehiculo, nota,
       coordsOrigen  : coordsO,
       coordsDestino : coordsD,
+      fechaHoraTS: Timestamp.fromDate(fechaHoraJS),
       status        : now?"pending_driver":"scheduled",
       creadoEn      : serverTimestamp(),
     };
@@ -113,11 +137,19 @@ export default function TripForm() {
       if(editing){
         await setDoc(doc(db,"viajes",id),data,{merge:true});
         navigate("/my-trips");
+        pushNotification(currentUser.uid,"Viaje actualizado");
       }else{
         const ref = await addDoc(collection(db,"viajes"),data);
         now
           ? navigate(`/drivers?tripId=${ref.id}&now=1`)
           : navigate(`/payment?tripId=${ref.id}`);
+
+        pushNotification(
+           currentUser.uid,
+           now
+            ? "Viaje creado – selecciona conductor"
+            : "Viaje programado – selecciona método de pago"
+        );  
       }
     }catch(err){ setError(err.message);}
     finally{ setLoading(false);}
@@ -137,6 +169,7 @@ export default function TripForm() {
         onClick={handleMapClick}>
         {coordsO&&<Marker position={coordsO} draggable onDragEnd={(e)=>dragEnd("O",e)} label="O"/>}
         {coordsD&&<Marker position={coordsD} draggable onDragEnd={(e)=>dragEnd("D",e)} label="D"/>}
+        {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
 
       <form onSubmit={handleSubmit} className="mt-3">

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { pushNotification }   from "../context/NotificationsContext";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
 import { doc, updateDoc, serverTimestamp } from "firebase/firestore";
@@ -49,6 +50,10 @@ export default function Drivers() {
         status: "pending_payment",
         asignadoEn: serverTimestamp(),
       });
+      pushNotification(
+        location.state?.uid || null,
+        `Conductor ${d.name} asignado — selecciona método de pago`
+      );
     } catch (err) {
       // si falla la escritura seguimos a pago igualmente
       console.error("No se pudo actualizar el viaje:", err.message);

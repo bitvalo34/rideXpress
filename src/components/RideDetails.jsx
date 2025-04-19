@@ -52,7 +52,7 @@ function RideDetails() {
         {ride.driver && (
           <p>
             <img
-              src="public/assets/driver-placeholder.png"
+              src="/assets/driver-placeholder.png"
               alt="driver"
               className="me-2"
               style={{ width: 35, borderRadius: "50%" }}

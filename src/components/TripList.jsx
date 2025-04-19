@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from "react";
 import { collection, query, where, orderBy,
          onSnapshot, deleteDoc, doc } from "firebase/firestore";
+import { pushNotification }   from "../context/NotificationsContext";
 import { db } from "../firebase";
 import { useAuth } from "../context/AuthContext";
 import { Link,useNavigate } from "react-router-dom";
@@ -26,9 +27,10 @@ export default function TripList(){
       setTrips(snap.docs.map(d=>({id:d.id,...d.data()}))));
   },[currentUser]);
 
-  const remove=async id=>{
-    if(window.confirm("¿Eliminar este viaje?"))
-      await deleteDoc(doc(db,"viajes",id));
+  const remove = async (id) => {
+    if (!window.confirm("¿Eliminar este viaje?")) return;
+    await deleteDoc(doc(db, "viajes", id));
+    pushNotification(currentUser.uid, "Viaje programado eliminado");
   };
 
   const filt=trips
@@ -66,8 +68,9 @@ export default function TripList(){
             <div className="col-md-4" key={t.id}>
               <div className="card trip-card shadow-sm p-3">
                 <Link to={`/ride/${t.id}`} className="text-dark text-decoration-none">
-                  <h5 className="fw-bold">{t.origen} → {t.destino}</h5>
-                  <p className="mb-1"><strong>Fecha:</strong> {t.fecha} — {t.hora}</p>
+                  <h5 className="fw-bold">{t.fecha} • {t.hora}</h5>
+                  <p className="mb-1"><strong>Origen:</strong> {t.origen}</p>
+                  <p className="mb-1"><strong>Destino:</strong> {t.destino}</p>
                 </Link>
                 <div className="d-flex justify-content-between mt-2">
                   <button className="btn btn-sm btn-outline-danger" onClick={()=>remove(t.id)}>Eliminar</button>
