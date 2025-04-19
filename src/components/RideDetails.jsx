@@ -10,6 +10,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import "../styles/RideDetails.css";
 
+const API_URL = "http://localhost:4000";
+
 function RideDetails() {
   const { id } = useParams();
   const [ride, setRide] = useState(null);
@@ -79,6 +81,17 @@ function RideDetails() {
             <strong>Nota:</strong> {ride.nota}
           </div>
         )}
+        {/* ↓ Botón para descargar recibo PDF ↓ */}
+        <div className="mt-4 text-center">
+          <a
+            href={`${API_URL}/trips/${ride.id}/receipt`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline-primary"
+          >
+            Descargar recibo PDF
+          </a>
+        </div>
       </div>
     </div>
   );
